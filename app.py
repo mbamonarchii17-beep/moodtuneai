@@ -24,6 +24,7 @@ HTML = r"""<!DOCTYPE html>
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>MoodTune AI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
@@ -34,11 +35,11 @@ HTML = r"""<!DOCTYPE html>
   --font-head:'Space Grotesk',sans-serif;--font-mono:'Space Mono',monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{background:var(--bg);color:var(--text);font-family:var(--font-head);min-height:100vh;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:var(--font-head);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
 
 /* HEADER */
-header{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(6,6,6,0.97);backdrop-filter:blur(16px);z-index:100;flex-wrap:wrap;gap:10px}
-.logo-area{display:flex;align-items:center;gap:12px}
+header{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(6,6,6,0.95);backdrop-filter:blur(16px);z-index:100;flex-wrap:wrap;gap:10px}
+.logo-area{display:flex;align-items:center;gap:14px}
 .fire-wings{display:flex;align-items:center;width:44px;height:24px}
 .wing{width:20px;height:20px;background:linear-gradient(45deg,var(--fire),var(--fire-glow));filter:drop-shadow(0 0 8px var(--fire))}
 .wing.left{border-radius:0 100% 30% 100%;animation:flapLeft 3s ease-in-out infinite alternate}
@@ -47,130 +48,110 @@ header{display:flex;align-items:center;justify-content:space-between;padding:16p
 @keyframes flapRight{0%{transform:rotate(25deg) scaleY(0.9)}100%{transform:rotate(5deg) scaleY(1.1)}}
 .logo-text{font-weight:700;font-size:1.25rem;letter-spacing:-0.03em}
 .logo-text span{color:transparent;background:linear-gradient(to right,var(--fire-glow),#fff);-webkit-background-clip:text;background-clip:text}
+.header-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .nav-tabs{display:flex;gap:4px;background:var(--surface);padding:4px;border-radius:10px;border:1px solid var(--border)}
 .nav-tab{background:none;border:none;color:var(--muted);font-family:var(--font-head);font-size:0.82rem;font-weight:600;padding:7px 14px;cursor:pointer;border-radius:6px;transition:all 0.2s;white-space:nowrap}
 .nav-tab.active{background:var(--surface2);color:var(--fire-glow);border:1px solid rgba(255,87,34,0.2)}
-.lang-panel{display:flex;gap:4px;background:var(--surface);padding:4px;border-radius:10px;border:1px solid var(--border)}
-.lang-btn{background:none;border:none;color:var(--muted);font-family:var(--font-mono);font-size:0.75rem;padding:6px 10px;cursor:pointer;border-radius:6px;transition:all 0.2s}
-.lang-btn.active{background:var(--surface2);color:var(--fire-glow);border:1px solid rgba(255,87,34,0.2)}
 
 /* PAGES */
 .page{display:none;flex:1;flex-direction:column}
 .page.active{display:flex}
-
-/* MAIN CONTENT */
-.main-wrap{max-width:740px;margin:0 auto;padding:28px 20px 60px;width:100%}
+.main-wrap{max-width:720px;margin:0 auto;padding:28px 20px 120px;width:100%}
 
 /* TRENDING */
-.trending-title{font-size:0.74rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.trending-title{font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:10px}
 .trending-title::after{content:'';flex:1;height:1px;background:var(--border)}
 .genre-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:32px}
-.genre-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:all 0.25s}
+.genre-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:all 0.25s;text-decoration:none;display:block}
 .genre-card:hover{border-color:var(--fire);transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,87,34,0.12)}
-.genre-thumb{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--surface2)}
 .genre-thumb-placeholder{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:2.2rem;background:linear-gradient(135deg,var(--surface2),#0d0d0d)}
 .genre-info{padding:10px 12px}
 .genre-label{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--fire-glow);margin-bottom:3px}
-.genre-track{font-size:0.85rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.genre-track{font-size:0.85rem;font-weight:600;color:var(--text);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .genre-artist{font-size:0.75rem;color:var(--muted);margin-top:1px}
 
-/* ─── MOOD TEST ─────────────────────────────────────────── */
-.test-section{margin-bottom:40px}
+/* MOOD TEST SECTION (PASTGA TUSHDI) */
+.test-section{margin-top:20px}
 .test-intro{background:var(--surface);border:1px solid rgba(255,87,34,0.25);border-radius:18px;padding:22px;margin-bottom:24px}
-.test-intro-header{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.test-intro-header{display:flex;align-items:center;gap:14px}
 .test-intro-icon{font-size:2rem;width:52px;height:52px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(255,87,34,0.15),rgba(255,145,0,0.08));border-radius:14px;border:1px solid rgba(255,87,34,0.2);flex-shrink:0}
-.test-intro-title{font-size:1.1rem;font-weight:700;margin-bottom:4px}
-.test-intro-sub{font-size:0.84rem;color:var(--muted);line-height:1.5}
-
-/* Question card */
+.test-intro-title{font-size:1.1rem;font-weight:700}
+.test-intro-sub{font-size:0.84rem;color:var(--muted);margin-top:4px;line-height:1.5}
 .q-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:22px;animation:fadeSlide 0.35s cubic-bezier(0.16,1,0.3,1)}
 @keyframes fadeSlide{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-
-/* Progress bar */
 .progress-wrap{margin-bottom:18px}
 .progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .progress-label{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted)}
 .progress-count{font-family:var(--font-mono);font-size:0.72rem;color:var(--fire-glow)}
 .progress-bar-track{height:3px;background:var(--border);border-radius:3px;overflow:hidden}
 .progress-bar-fill{height:100%;background:linear-gradient(to right,var(--fire),var(--fire-glow));border-radius:3px;transition:width 0.4s ease}
-.progress-dots{display:flex;gap:6px;margin-top:10px}
-.p-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all 0.3s}
-.p-dot.done{background:var(--fire)}
-.p-dot.active{background:var(--fire-glow);box-shadow:0 0 8px var(--fire-glow);transform:scale(1.2)}
-
-/* Question text */
-.q-number{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--fire-glow);margin-bottom:8px}
-.q-text{font-size:1rem;font-weight:600;line-height:1.45;margin-bottom:18px;color:var(--text)}
-
-/* Options */
+.q-text{font-size:1rem;font-weight:600;line-height:1.45;margin-bottom:18px}
 .options{display:flex;flex-direction:column;gap:9px}
 .opt-btn{display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:13px 15px;cursor:pointer;transition:all 0.2s;text-align:left;width:100%;font-family:var(--font-head)}
 .opt-btn:hover{background:rgba(255,87,34,0.07);border-color:rgba(255,87,34,0.3);transform:translateX(3px)}
-.opt-btn.selected{background:rgba(255,87,34,0.12);border-color:rgba(255,87,34,0.5);transform:translateX(0)}
-.opt-key{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:rgba(255,87,34,0.12);border:1px solid rgba(255,87,34,0.2);color:var(--fire-glow);font-weight:700;font-size:0.72rem;font-family:var(--font-mono);flex-shrink:0;margin-top:1px;transition:all 0.2s}
-.opt-btn:hover .opt-key,.opt-btn.selected .opt-key{background:var(--fire);color:#fff;border-color:var(--fire)}
-.opt-content{flex:1}
-.opt-label{font-size:0.9rem;font-weight:600;color:var(--text);line-height:1.3}
-.opt-sub{font-size:0.75rem;color:var(--muted);margin-top:3px;line-height:1.3}
+.opt-key{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:rgba(255,87,34,0.12);border:1px solid rgba(255,87,34,0.2);color:var(--fire-glow);font-weight:700;font-size:0.72rem;font-family:var(--font-mono);flex-shrink:0}
+.opt-label{font-size:0.9rem;font-weight:600;color:var(--text)}
 
-/* ─── RESULT ────────────────────────────────────────────── */
-.result-card{background:var(--surface);border:1px solid rgba(255,87,34,0.25);border-radius:20px;overflow:hidden;animation:fadeSlide 0.4s cubic-bezier(0.16,1,0.3,1);margin-bottom:24px}
-.result-banner{padding:28px 24px 22px;text-align:center;position:relative;overflow:hidden}
-.result-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,87,34,0.18) 0%,transparent 70%)}
-.result-vibe-icon{font-size:3rem;margin-bottom:10px;display:block;animation:pop 0.5s cubic-bezier(0.16,1,0.3,1)}
-@keyframes pop{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}
-.result-vibe-name{font-size:1.4rem;font-weight:700;color:var(--fire-glow);margin-bottom:8px;position:relative}
-.result-desc{font-size:0.88rem;color:#bbb;line-height:1.6;max-width:440px;margin:0 auto;position:relative}
-.result-genres{display:flex;flex-wrap:wrap;gap:7px;padding:16px 20px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.result-genre-tag{background:rgba(255,87,34,0.08);border:1px solid rgba(255,87,34,0.2);color:var(--fire-glow);padding:5px 13px;border-radius:20px;font-size:0.78rem;font-weight:600}
+/* RESULTS CARD */
+.result-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-bottom:20px}
+.result-banner{background:linear-gradient(135deg,rgba(255,87,34,0.15),rgba(255,145,0,0.05));padding:24px;border-bottom:1px solid var(--border)}
+.result-vibe-icon{font-size:2.5rem;margin-bottom:8px;display:block}
+.result-vibe-name{font-size:1.4rem;font-weight:700;color:var(--fire-glow)}
+.result-desc{font-size:0.88rem;color:var(--muted);margin-top:6px;line-height:1.5}
+.result-genres{padding:14px 20px 8px;display:flex;flex-wrap:wrap;gap:6px}
+.genre-tag{background:var(--surface2);border:1px solid var(--border);font-size:0.72rem;font-weight:600;padding:4px 10px;border-radius:6px;color:var(--fire-glow)}
+.music-track{display:flex;align-items:center;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:12px;margin:0 20px 8px;text-decoration:none;color:#fff;overflow:hidden;transition:all 0.22s}
+.music-track:hover{background:rgba(255,87,34,0.07);border-color:rgba(255,87,34,0.3);transform:translateX(3px)}
+.track-thumb-wrap{position:relative;width:80px;height:52px;flex-shrink:0}
+.track-thumb-ph{width:100%;height:100%;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.track-num-badge{position:absolute;bottom:3px;right:3px;background:rgba(0,0,0,0.75);font-size:0.6rem;font-weight:700;padding:1px 5px;border-radius:3px}
+.track-info{flex:1;padding:0 12px;min-width:0}
+.track-title{font-weight:600;font-size:0.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track-artist{font-size:0.72rem;color:var(--muted);margin-top:2px}
+.track-yt{font-family:var(--font-mono);font-size:0.65rem;font-weight:700;color:#ff5555;padding:0 14px;background:rgba(255,0,0,0.05);height:52px;display:flex;align-items:center}
+.tracks-header{padding:12px 20px 6px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted)}
+.retry-row{text-align:center;margin-bottom:24px}
+.retry-btn{background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--font-head);font-weight:600;font-size:0.86rem;padding:10px 20px;border-radius:10px;cursor:pointer;transition:all 0.2s}
+.retry-btn:hover{border-color:var(--fire);color:var(--fire-glow)}
 
-/* Tracks */
-.tracks-header{padding:14px 20px 10px;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);display:flex;align-items:center;gap:8px}
-.tracks-header::after{content:'';flex:1;height:1px;background:var(--border)}
-.track-list{padding:0 12px 16px;display:flex;flex-direction:column;gap:6px}
-.music-track{display:flex;align-items:center;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.05);border-radius:10px;text-decoration:none;color:#fff;transition:all 0.22s;overflow:hidden}
-.music-track:hover{background:rgba(255,87,34,0.07);border-color:rgba(255,87,34,0.35);transform:translateX(3px);box-shadow:0 4px 16px rgba(255,87,34,0.1)}
-.track-thumb-wrap{position:relative;flex-shrink:0;width:88px;height:56px}
-.track-thumb{width:88px;height:56px;object-fit:cover;display:block}
-.track-thumb-ph{width:88px;height:56px;background:linear-gradient(135deg,#1a1a1a,#0d0d0d);display:flex;align-items:center;justify-content:center;font-size:1.4rem}
-.track-num-badge{position:absolute;bottom:3px;right:3px;min-width:18px;height:18px;background:rgba(0,0,0,0.78);border-radius:4px;font-size:0.6rem;font-weight:700;display:flex;align-items:center;justify-content:center;color:#fff;padding:0 4px;backdrop-filter:blur(4px)}
-.track-info{flex:1;min-width:0;padding:0 12px}
-.track-title{font-weight:600;font-size:0.87rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#f0f0f0;letter-spacing:-0.01em}
-.track-artist{font-size:0.72rem;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.track-yt{flex-shrink:0;display:flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:0.65rem;font-weight:700;background:rgba(255,0,0,0.1);border-left:1px solid rgba(255,255,255,0.05);color:#ff5555;padding:0 14px;height:56px;white-space:nowrap;transition:background 0.2s}
-.music-track:hover .track-yt{background:rgba(255,0,0,0.2)}
+/* ─── PAGE 2: MUSIC INFO CHAT & RICH PANEL ─── */
+.info-welcome-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px 22px;margin-bottom:20px}
+.info-welcome-icon{font-size:2.2rem;margin-bottom:10px}
+.info-welcome-title{font-size:1.25rem;font-weight:700;margin-bottom:6px}
+.info-welcome-sub{color:var(--muted);font-size:0.88rem;line-height:1.55}
+.chat-stream{display:flex;flex-direction:column;gap:14px;margin-bottom:20px}
+.bubble{display:flex;flex-direction:column;max-width:85%;animation:bubbleIn 0.25s ease-out forwards}
+@keyframes bubbleIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.bubble.user{align-self:flex-end}
+.bubble.bot{align-self:flex-start}
+.bubble-msg{padding:12px 16px;border-radius:14px;font-size:0.92rem;line-height:1.45}
+.bubble.user .bubble-msg{background:linear-gradient(135deg,var(--fire),var(--fire-glow));color:#fff;border-bottom-right-radius:4px}
+.bubble.bot .bubble-msg{background:var(--surface);border:1px solid var(--border);color:var(--text);border-bottom-left-radius:4px}
 
-/* Reset / Retry */
-.retry-row{display:flex;gap:10px;flex-wrap:wrap}
-.retry-btn{flex:1;min-width:140px;background:none;border:1px solid var(--border);color:var(--muted);padding:12px 18px;border-radius:12px;font-family:var(--font-head);font-size:0.88rem;font-weight:600;cursor:pointer;transition:all 0.2s}
-.retry-btn:hover{border-color:var(--fire);color:var(--text)}
-.retry-btn.primary{background:linear-gradient(135deg,var(--fire),var(--fire-glow));border-color:transparent;color:#fff}
-.retry-btn.primary:hover{opacity:0.9;transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,87,34,0.3)}
+/* DYNAMIC RICH CARD FOR MUSIC INFO */
+.info-rich{margin-top:10px}
+.info-section{margin-bottom:16px}
+.info-section:last-child{margin-bottom:0}
+.info-section-title{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--fire-glow);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.info-section-title::after{content:'';flex:1;height:1px;background:rgba(255,87,34,0.15)}
+.info-fact-row{display:flex;gap:8px;margin-bottom:5px;align-items:flex-start}
+.info-fact-key{font-size:0.78rem;color:var(--muted);min-width:85px;flex-shrink:0}
+.info-fact-val{font-size:0.85rem;color:var(--text);font-weight:500;line-height:1.4}
+.info-bio{font-size:0.84rem;color:var(--muted);line-height:1.5;margin-top:4px}
+.typing-indicator{display:flex;gap:4px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;width:fit-content;align-self:flex-start;margin-bottom:10px}
+.typing-dot{width:6px;height:6px;background:var(--muted);border-radius:50%;animation:typeBounce 1.2s infinite ease-in-out}
+.typing-dot:nth-child(2){animation-delay:0.2s}
+.typing-dot:nth-child(3){animation-delay:0.4s}
+@keyframes typeBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px);background:var(--fire-glow)}}
 
-/* GENRE MODAL */
-.genre-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
-.genre-modal-overlay.open{display:flex}
-.genre-modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;max-width:520px;width:100%;max-height:82vh;overflow-y:auto;position:relative;animation:fadeSlide 0.35s cubic-bezier(0.16,1,0.3,1)}
-.genre-modal-header{padding:18px 20px 14px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);z-index:2;display:flex;align-items:center;justify-content:space-between}
-.genre-modal-title{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px}
-.genre-modal-label{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--fire-glow)}
-.genre-modal-close{background:var(--surface2);border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
-.genre-modal-close:hover{border-color:var(--fire);color:#fff}
-.genre-modal-list{padding:14px;display:flex;flex-direction:column;gap:8px}
-.modal-track{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);padding:10px 13px;border-radius:10px;text-decoration:none;color:#fff;transition:all 0.2s}
-.modal-track:hover{background:rgba(255,87,34,0.1);border-color:var(--fire);transform:translateX(3px)}
-.modal-track-num{width:24px;height:24px;background:var(--surface2);border:1px solid var(--border);border-radius:50%;font-size:0.7rem;font-weight:700;color:var(--fire-glow);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.modal-track-thumb{width:64px;height:42px;border-radius:7px;object-fit:cover;flex-shrink:0;background:var(--surface2)}
-.modal-track-thumb-ph{width:64px;height:42px;border-radius:7px;background:linear-gradient(135deg,#1e1e1e,#0d0d0d);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;border:1px solid var(--border)}
-.modal-track-info{flex:1;min-width:0}
-.modal-track-title{font-size:0.88rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.modal-track-artist{font-size:0.75rem;color:var(--muted);margin-top:2px}
-.modal-yt-btn{background:rgba(255,0,0,0.12);border:1px solid rgba(255,0,0,0.3);color:#ff4444;padding:5px 10px;border-radius:20px;font-size:0.7rem;font-weight:700;white-space:nowrap;flex-shrink:0}
-
-/* scrollbar */
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:#333;border-radius:5px}
+/* FIXED BOTTOM CHAT BAR */
+.bottom-panel{position:fixed;bottom:0;left:0;right:0;background:rgba(6,6,6,0.92);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:14px 20px 20px;z-index:90}
+.input-container{max-width:700px;margin:0 auto;display:flex;gap:10px;align-items:flex-end}
+.input-field{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:12px;color:var(--text);font-family:var(--font-head);font-size:0.95rem;padding:12px 14px;resize:none;outline:none;min-height:46px;max-height:120px;line-height:1.4;transition:all 0.2s}
+.input-field:focus{border-color:var(--fire)}
+.send-btn{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--fire),var(--fire-glow));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;transition:transform 0.15s;flex-shrink:0}
+.send-btn:hover{transform:scale(1.03)}
+.send-btn:disabled{background:var(--surface2);color:var(--muted);cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -180,542 +161,330 @@ header{display:flex;align-items:center;justify-content:space-between;padding:16p
     <div class="fire-wings"><div class="wing left"></div><div class="wing right"></div></div>
     <div class="logo-text">MoodTune<span>AI</span></div>
   </div>
-  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+  <div class="header-right">
     <div class="nav-tabs">
-      <button class="nav-tab active" data-page="page-home">🎵 Musiqa</button>
-      <button class="nav-tab" data-page="page-test">🎭 Kayfiyat Testi</button>
-    </div>
-    <div class="lang-panel" id="lang-panel">
-      <button class="lang-btn active" data-lang="uz">UZ</button>
-      <button class="lang-btn" data-lang="ru">RU</button>
-      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="nav-tab active" data-page="page-mood">🎵 Mood Chat</button>
+      <button class="nav-tab" data-page="page-info">🎤 Music Info</button>
     </div>
   </div>
 </header>
 
-<!-- PAGE 1: HOME (Trending) -->
-<div class="page active" id="page-home">
+<div class="page active" id="page-mood">
   <div class="main-wrap">
-    <div class="trending-title" id="trending-title">🔥 Trending hozir — bosing va tinglang</div>
+    
+    <div class="trending-title">Trenddagi Janrlar</div>
     <div class="genre-grid" id="genre-grid"></div>
-  </div>
-</div>
 
-<!-- PAGE 2: MOOD TEST -->
-<div class="page" id="page-test">
-  <div class="main-wrap">
-    <div class="test-section" id="test-section"></div>
-  </div>
-</div>
-
-<!-- GENRE MODAL -->
-<div class="genre-modal-overlay" id="genre-modal-overlay">
-  <div class="genre-modal">
-    <div class="genre-modal-header">
-      <div>
-        <div class="genre-modal-label" id="modal-genre-label"></div>
-        <div class="genre-modal-title" id="modal-genre-title"></div>
+    <div class="test-section">
+      <div class="test-intro" id="test-intro-box">
+        <div class="test-intro-header">
+          <div class="test-intro-icon">🎭</div>
+          <div>
+            <div class="test-intro-title">Hozirgi kayfiyatingiz qanday?</div>
+            <div class="test-intro-sub">Tezkor psixologik testni topshiring va AI sizga mos keladigan musiqiy to'plamni (Vibe) shakllantirib beradi.</div>
+          </div>
+        </div>
       </div>
-      <button class="genre-modal-close" id="genre-modal-close">✕</button>
+      <div id="test-core-box"></div>
     </div>
-    <div class="genre-modal-list" id="genre-modal-list"></div>
+
+  </div>
+</div>
+
+<div class="page" id="page-info">
+  <div class="main-wrap">
+    <div class="info-welcome-card">
+      <div class="info-welcome-icon">🎤</div>
+      <div class="info-welcome-title">Music Info Panel</div>
+      <div class="info-welcome-sub">Sevimli san'atkorlaringiz, guruhlar yoki treklar haqida chuqur tahliliy ma'lumotlar bazasi. Istalgan ijodkor nomini yozib qidiring.</div>
+    </div>
+
+    <div class="chat-stream" id="info-chat-stream"></div>
+    <div class="typing-indicator" id="info-typing" style="display:none"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
+  </div>
+</div>
+
+<div class="bottom-panel">
+  <div class="input-container">
+    <textarea class="input-field" id="chat-input" rows="1" placeholder="Savolingizni yozing..."></textarea>
+    <button class="send-btn" id="send-btn" disabled>
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+    </button>
   </div>
 </div>
 
 <script>
-// ── DATA ──────────────────────────────────────────────────────────────────────
-const GENRES = [
-  {label:"Pop / R&B", icon:"🎶", track:"Blinding Lights", artist:"The Weeknd", ytId:"4NRXx6U8ABQ"},
-  {label:"Rap / Hip-Hop", icon:"🎤", track:"God's Plan", artist:"Drake", ytId:"xpVfcZ0ZcFM"},
-  {label:"Classic Rock", icon:"🎸", track:"Bohemian Rhapsody", artist:"Queen", ytId:"fJ9rUzIMcZQ"},
-  {label:"Nostalgic", icon:"🌅", track:"Hotel California", artist:"Eagles", ytId:"BciS5krYL80"}
+// ─── MA'LUMOTLAR BAZASI (final.html dagi kabi) ───
+const ARTISTS_DB = [
+  {
+    name: "The Weeknd",
+    match: ["weeknd", "the weeknd", "abel"],
+    genre: "R&B, Pop, Synth-pop",
+    country: "Kanada",
+    period: "2010 - hozirgacha",
+    vibe: "Tungi shahar, melanxoliya, neon xotiralar",
+    bio: "Abel Tesfaye o'zining sirlilik va chuqur retro-sintizator tovushlari bilan zamonaviy R&B va Pop musiqasini butunlay o'zgartirdi. Uning 'Blinding Lights' treki o'n yillikning eng katta xitlaridan biridir."
+  },
+  {
+    name: "Eminem",
+    match: ["eminem", "slim shady", "marshall"],
+    genre: "Hip-Hop, Rap",
+    country: "AQSh",
+    period: "1996 - hozirgacha",
+    vibe: "Agressiv energiya, motivatsiya, o'tkir lirika",
+    bio: "Marshall Mathers - tarixdagi eng ko'p sotilgan rep ijrochisi. Tezkor va murakkab qofiyalari, texnik mahorati hamda hayotiy qiyinchiliklar tasvirlangan treklari bilan dunyoga mashhur."
+  },
+  {
+    name: "Hans Zimmer",
+    match: ["hans zimmer", "zimmer", "hans"],
+    genre: "Cinematic, Orchestral",
+    country: "Germaniya / AQSh",
+    period: "1977 - hozirgacha",
+    vibe: "Epik atmosferalar, chuqur o'ylash, grandiozlik",
+    bio: "Interstellar, Inception, Gladiator va The Dark Knight filmlari bastakori. Elektron musiqani simfonik orkestr bilan mukammal uyg'unlashtirgan master."
+  }
 ];
 
-const GENRE_SONGS = {
-  "Pop / R&B":[
-    {title:"Blinding Lights",artist:"The Weeknd",ytId:"4NRXx6U8ABQ"},
-    {title:"As It Was",artist:"Harry Styles",ytId:"H5v3kku4y6Q"},
-    {title:"Watermelon Sugar",artist:"Harry Styles",ytId:"E07s5ZYygMg"},
-    {title:"Anti-Hero",artist:"Taylor Swift",ytId:"b1kbLwvqugk"},
-    {title:"Levitating",artist:"Dua Lipa",ytId:"TUVcZfQe-Kw"},
-    {title:"Save Your Tears",artist:"The Weeknd",ytId:"XXYlFuWEuKI"},
-    {title:"Stay",artist:"The Kid LAROI & Justin Bieber",ytId:"kTJczUoc26U"},
-    {title:"Positions",artist:"Ariana Grande",ytId:"tcYodQoapMg"},
-    {title:"Good 4 U",artist:"Olivia Rodrigo",ytId:"gNi_6U5Pm_o"},
-    {title:"Starboy",artist:"The Weeknd",ytId:"34Na4j8AVgA"},
-    {title:"Shape of You",artist:"Ed Sheeran",ytId:"JGwWNGJdvx8"},
-    {title:"Circles",artist:"Post Malone",ytId:"wXhTHyIgQ_U"},
-    {title:"Love Story (Taylor's Version)",artist:"Taylor Swift",ytId:"8xg3vE8Ie_E"},
-    {title:"Peaches",artist:"Justin Bieber",ytId:"tQ0yjYUFKAE"},
-    {title:"drivers license",artist:"Olivia Rodrigo",ytId:"ZmDBbnmKpqQ"}
-  ],
-  "Rap / Hip-Hop":[
-    {title:"God's Plan",artist:"Drake",ytId:"xpVfcZ0ZcFM"},
-    {title:"HUMBLE.",artist:"Kendrick Lamar",ytId:"tvTRZJ-4EyI"},
-    {title:"Rockstar",artist:"Post Malone ft. 21 Savage",ytId:"UceaB4D0jpo"},
-    {title:"Sicko Mode",artist:"Travis Scott",ytId:"6ONRf7h3Mdk"},
-    {title:"Lucid Dreams",artist:"Juice WRLD",ytId:"mzB1VGEGcSU"},
-    {title:"Hotline Bling",artist:"Drake",ytId:"uxpDa-c-4Mc"},
-    {title:"Rap God",artist:"Eminem",ytId:"XbGs_qK2PQA"},
-    {title:"MIDDLE CHILD",artist:"J. Cole",ytId:"MaT4Jk77af8"},
-    {title:"Old Town Road",artist:"Lil Nas X",ytId:"w2Ov5jzm3j8"},
-    {title:"Congratulations",artist:"Post Malone",ytId:"SC4xMk98Pdc"},
-    {title:"XO Tour Llif3",artist:"Lil Uzi Vert",ytId:"WrsFXgrun6g"},
-    {title:"Wow.",artist:"Post Malone",ytId:"SsodjxbHdcE"},
-    {title:"Big Rings",artist:"Drake & Future",ytId:"7GaRr2GGzao"},
-    {title:"Fefe",artist:"6ix9ine ft. Nicki Minaj",ytId:"qNkR6y_kBjg"},
-    {title:"Money In The Grave",artist:"Drake ft. Rick Ross",ytId:"RjWGetUKqzM"}
-  ],
-  "Classic Rock":[
-    {title:"Bohemian Rhapsody",artist:"Queen",ytId:"fJ9rUzIMcZQ"},
-    {title:"Don't Stop Me Now",artist:"Queen",ytId:"HgzGwKwLmgM"},
-    {title:"Hotel California",artist:"Eagles",ytId:"BciS5krYL80"},
-    {title:"Stairway to Heaven",artist:"Led Zeppelin",ytId:"QkF3oxziUI4"},
-    {title:"Sweet Child O' Mine",artist:"Guns N' Roses",ytId:"1w7OgIMMRc4"},
-    {title:"November Rain",artist:"Guns N' Roses",ytId:"8SbUC-UaAxE"},
-    {title:"Eye of the Tiger",artist:"Survivor",ytId:"btPJPFnesV4"},
-    {title:"Livin' on a Prayer",artist:"Bon Jovi",ytId:"lDK9QqIzhwk"},
-    {title:"Purple Rain",artist:"Prince",ytId:"TvnYmWpD_T8"},
-    {title:"We Will Rock You",artist:"Queen",ytId:"-tJYN-eG1zk"},
-    {title:"Dream On",artist:"Aerosmith",ytId:"89dGtCN_cPg"},
-    {title:"Should I Stay or Should I Go",artist:"The Clash",ytId:"BN1WwnEDWAM"},
-    {title:"Sultans of Swing",artist:"Dire Straits",ytId:"0fAQhSRLQnM"},
-    {title:"With or Without You",artist:"U2",ytId:"ujNeHIo9dAU"},
-    {title:"Jump",artist:"Van Halen",ytId:"SwYN7mTi6HM"}
-  ],
-  "Nostalgic":[
-    {title:"Take On Me",artist:"a-ha",ytId:"djV11Xbc914"},
-    {title:"Africa",artist:"Toto",ytId:"FTQbiNvZqaY"},
-    {title:"Don't You (Forget About Me)",artist:"Simple Minds",ytId:"CdqoNKCCt7A"},
-    {title:"Every Breath You Take",artist:"The Police",ytId:"OMOGaugKpzs"},
-    {title:"Girls Just Want to Have Fun",artist:"Cyndi Lauper",ytId:"PIb6AZdTr-A"},
-    {title:"99 Luftballons",artist:"Nena",ytId:"La4Dcd1aUcI"},
-    {title:"Walking on Sunshine",artist:"Katrina & The Waves",ytId:"iPUmE-tne5U"},
-    {title:"Wake Me Up Before You Go-Go",artist:"Wham!",ytId:"pITmCFYkWN8"},
-    {title:"Summer of '69",artist:"Bryan Adams",ytId:"9f06QZCVUHg"},
-    {title:"Sweet Home Alabama",artist:"Lynyrd Skynyrd",ytId:"ye5BuYf8q4o"},
-    {title:"Piano Man",artist:"Billy Joel",ytId:"gxEPV4kolz0"},
-    {title:"Hotel California",artist:"Eagles",ytId:"BciS5krYL80"},
-    {title:"Come On Eileen",artist:"Dexys Midnight Runners",ytId:"qpbIaE5Bhdk"},
-    {title:"Kokomo",artist:"The Beach Boys",ytId:"pAwR6C82TCI"},
-    {title:"867-5309/Jenny",artist:"Tommy Tutone",ytId:"6dx_8mHxMI0"}
-  ]
-};
+const sampleGenres = [
+  { label: "Chill & Lo-Fi", track: "Sunset Drive", artist: "Lofi Dreamer", icon: "☕" },
+  { label: "Energetic Pop", track: "Neon Lights", artist: "Star Glow", icon: "⚡" },
+  { label: "Cinematic Epic", track: "Time Travel", artist: "Orchestra", icon: "🌌" },
+  { label: "Deep Rap", track: "Night Stories", artist: "Shadow", icon: "🎤" }
+];
 
-// ── MOOD TEST DATA ────────────────────────────────────────────────────────────
-const QUESTIONS = {
-  uz:[
-    {
-      text:"Hozir ichingizdagi qaysi emotsiya birinchi o'rinda turibdi?",
-      opts:[
-        {key:"A",label:"😤 Jahl, asabiylik yoki stress",sub:"Hamma narsa asabga tegyapti"},
-        {key:"B",label:"⚡ Energiya to'lib-toshayapti",sub:"Harakat qilgim kelyapti"},
-        {key:"C",label:"😴 Charchoq va bo'shashish",sub:"Miyaga sokinlik kerak"},
-        {key:"D",label:"🌙 Zerikish yoki mayuslik",sub:"Xayol surish kayfiyati"}
-      ]
-    },
-    {
-      text:"Sizga hozir qanday ritm (sur'at) kerak?",
-      opts:[
-        {key:"A",label:"💥 Juda tez va shovqinli",sub:""},
-        {key:"B",label:"🕺 Ritmli, sho'x",sub:"Lekin asabga tegmaydigan"},
-        {key:"C",label:"〰️ Bir tekisda ketadigan",sub:"Sokin fon"},
-        {key:"D",label:"🌊 Sekin va mayin",sub:""}
-      ]
-    },
-    {
-      text:"Qo'shiqda so'zlar bo'lishi shartmi?",
-      opts:[
-        {key:"A",label:"🔥 Farqi yo'q",sub:"Asosiysi drayv bo'lsa bo'ldi"},
-        {key:"B",label:"🎉 Ha, sho'x so'zlar",sub:"Qo'shilib aytishga oson"},
-        {key:"C",label:"🎹 Umuman bo'lmasin",sub:"Yoki chet tilida, tushunarsiz"},
-        {key:"D",label:"📖 Ha, ma'noli chuqur so'zlar",sub:""}
-      ]
-    },
-    {
-      text:"Musiqa sizni hozir qayerga yetaklashi kerak?",
-      opts:[
-        {key:"A",label:"💢 Negativni tashqariga chiqarishga",sub:"Baqirib-chaqirib"},
-        {key:"B",label:"💃 To'g'ri raqs maydonchasiga",sub:"Divandan turib ketishga"},
-        {key:"C",label:"🛋️ Divanga yotib dam olishga",sub:"Ko'zni yumib"},
-        {key:"D",label:"💭 Shirin xayollarga",sub:"O'tmish yoki kelajak haqida"}
-      ]
-    }
-  ],
-  ru:[
-    {
-      text:"Какая эмоция сейчас у вас на первом месте?",
-      opts:[
-        {key:"A",label:"😤 Злость, раздражение или стресс",sub:"Всё достало"},
-        {key:"B",label:"⚡ Переполняет энергия",sub:"Хочется действовать"},
-        {key:"C",label:"😴 Усталость и расслабленность",sub:"Нужен покой"},
-        {key:"D",label:"🌙 Скука или лёгкая грусть",sub:"Настрой на мечты"}
-      ]
-    },
-    {
-      text:"Какой темп нужен прямо сейчас?",
-      opts:[
-        {key:"A",label:"💥 Очень быстрый и громкий",sub:""},
-        {key:"B",label:"🕺 Ритмичный, весёлый",sub:"Но не раздражающий"},
-        {key:"C",label:"〰️ Равномерный, спокойный фон",sub:""},
-        {key:"D",label:"🌊 Медленный и мягкий",sub:""}
-      ]
-    },
-    {
-      text:"Нужны ли слова в песне?",
-      opts:[
-        {key:"A",label:"🔥 Неважно",sub:"Главное — драйв"},
-        {key:"B",label:"🎉 Да, весёлые слова",sub:"Чтобы подпевать"},
-        {key:"C",label:"🎹 Нет, без слов",sub:"Или на непонятном языке"},
-        {key:"D",label:"📖 Да, глубокие и смысловые",sub:""}
-      ]
-    },
-    {
-      text:"Куда должна привести тебя музыка?",
-      opts:[
-        {key:"A",label:"💢 Выплеснуть весь негатив",sub:"Кричать и бесноваться"},
-        {key:"B",label:"💃 Прямо на танцпол",sub:"Встать с дивана"},
-        {key:"C",label:"🛋️ Лечь и отдохнуть",sub:"Закрыть глаза"},
-        {key:"D",label:"💭 В сладкие мечты",sub:"О прошлом или будущем"}
-      ]
-    }
-  ],
-  en:[
-    {
-      text:"Which emotion is on top right now?",
-      opts:[
-        {key:"A",label:"😤 Anger, irritation or stress",sub:"Everything is getting on my nerves"},
-        {key:"B",label:"⚡ Bursting with energy",sub:"I want to move"},
-        {key:"C",label:"😴 Tired and relaxed",sub:"Need some quiet"},
-        {key:"D",label:"🌙 Boredom or mild sadness",sub:"Daydreaming mood"}
-      ]
-    },
-    {
-      text:"What kind of tempo do you need right now?",
-      opts:[
-        {key:"A",label:"💥 Very fast and loud",sub:""},
-        {key:"B",label:"🕺 Rhythmic and upbeat",sub:"But not overwhelming"},
-        {key:"C",label:"〰️ Steady, calm background",sub:""},
-        {key:"D",label:"🌊 Slow and gentle",sub:""}
-      ]
-    },
-    {
-      text:"Do you need lyrics in the song?",
-      opts:[
-        {key:"A",label:"🔥 Doesn't matter",sub:"As long as it has drive"},
-        {key:"B",label:"🎉 Yes, fun lyrics to sing along",sub:""},
-        {key:"C",label:"🎹 No lyrics at all",sub:"Or in a foreign language"},
-        {key:"D",label:"📖 Yes, deep and meaningful",sub:""}
-      ]
-    },
-    {
-      text:"Where should the music take you right now?",
-      opts:[
-        {key:"A",label:"💢 Release all the negativity",sub:"Scream it out"},
-        {key:"B",label:"💃 Straight to the dance floor",sub:"Get off the couch"},
-        {key:"C",label:"🛋️ Lie down and rest",sub:"Close your eyes"},
-        {key:"D",label:"💭 Into sweet daydreams",sub:"About past or future"}
-      ]
-    }
-  ]
-};
-
-// Result algorithm: count A,B,C,D → pick winner
-const RESULTS = {
-  uz:{
-    A:{
-      vibe:"Asabga qarshi dori", icon:"🔥",
-      desc:"Siz hozir portlash arafasidasiz. Ikkita yo'l bor: energiyani chiqarib yuborish yoki tinchlanish.",
-      genres:["Phonk","Heavy Metal","Lo-Fi Ambient","Dark Techno"],
-      tracks:[
-        {title:"DEAF KEV - Invincible",artist:"DEAF KEV",ytId:"J2X5mJ3HDYE"},
-        {title:"Night Lovell - Dark Light",artist:"Night Lovell",ytId:"j-_7hqnHMbE"},
-        {title:"Freddie Dredd - Gottage Inn",artist:"Freddie Dredd",ytId:"JhFbRBfqkbg"},
-        {title:"Three Days Grace - I Hate Everything About You",artist:"Three Days Grace",ytId:"nRmAEgIpGiU"},
-        {title:"Linkin Park - In The End",artist:"Linkin Park",ytId:"eVTXPUF4Oz4"},
-        {title:"Linkin Park - Numb",artist:"Linkin Park",ytId:"kXYiU_JCYtU"},
-        {title:"Disturbed - Down With The Sickness",artist:"Disturbed",ytId:"08dn6eNpTX4"},
-        {title:"Rage Against The Machine - Killing In The Name",artist:"RATM",ytId:"bWXazVeVnYA"},
-        {title:"System Of A Down - Chop Suey",artist:"System Of A Down",ytId:"CSvFpBOe8eY"},
-        {title:"Slipknot - Wait And Bleed",artist:"Slipknot",ytId:"sSFTMbGlRY8"}
-      ]
-    },
-    B:{
-      vibe:"Raqs va Kayfiyat", icon:"💃",
-      desc:"Energiya bor, lekin qo'shiq yo'q. Ssenariy emas — faqat raqs va quvnoqlik.",
-      genres:["Dance Pop","Club Music","Uzbek Pop","Remix"],
-      tracks:[
-        {title:"Dua Lipa - Levitating",artist:"Dua Lipa",ytId:"TUVcZfQe-Kw"},
-        {title:"Bruno Mars - Uptown Funk",artist:"Bruno Mars ft. Mark Ronson",ytId:"OPf0YbXqDm0"},
-        {title:"The Weeknd - Blinding Lights",artist:"The Weeknd",ytId:"4NRXx6U8ABQ"},
-        {title:"Dua Lipa - Don't Start Now",artist:"Dua Lipa",ytId:"oygrmKOqttA"},
-        {title:"Harry Styles - As It Was",artist:"Harry Styles",ytId:"H5v3kku4y6Q"},
-        {title:"Calvin Harris - Summer",artist:"Calvin Harris",ytId:"ebXbLfLACGM"},
-        {title:"Kygo - Firestone",artist:"Kygo ft. Conrad",ytId:"9Sc-ir2UwGU"},
-        {title:"Avicii - Wake Me Up",artist:"Avicii",ytId:"IcrbM1l_BoI"},
-        {title:"Martin Garrix - Animals",artist:"Martin Garrix",ytId:"gCYcHz2k5x0"},
-        {title:"Ariana Grande - 7 rings",artist:"Ariana Grande",ytId:"QYh6mYIJG2Y"}
-      ]
-    },
-    C:{
-      vibe:"Miyaga Perekur", icon:"🧠",
-      desc:"Ishdan, o'qishdan yoki odamlardan charchagansiz. Miyani yuklamaydigan, shunchaki yoqimli fon kerak.",
-      genres:["Lo-Fi Hip-Hop","Deep House","Mayin Jazz","Ambient"],
-      tracks:[
-        {title:"Lofi Girl - Chill Beats to Study",artist:"Lofi Girl",ytId:"jfKfPfyJRdk"},
-        {title:"ChilledCow - Sleepy Fish",artist:"Sleepy Fish",ytId:"UiTBNVHUGbc"},
-        {title:"Norah Jones - Don't Know Why",artist:"Norah Jones",ytId:"tO4dxvguQDk"},
-        {title:"Nujabes - Feather",artist:"Nujabes",ytId:"RKoriT3NNOE"},
-        {title:"J Dilla - So Far to Go",artist:"J Dilla",ytId:"jfJnMDdKgY0"},
-        {title:"Bonobo - Kong",artist:"Bonobo",ytId:"7GF3Gg7IUi0"},
-        {title:"Tycho - Awake",artist:"Tycho",ytId:"lAb-xDIXv6c"},
-        {title:"Washed Out - Feel It All Around",artist:"Washed Out",ytId:"Tc0oJPJGSmo"},
-        {title:"Still Woozy - Goodie Bag",artist:"Still Woozy",ytId:"oVvDKpS7Tj4"},
-        {title:"Rex Orange County - Corduroy Dreams",artist:"Rex Orange County",ytId:"g9foCk25Y5Y"}
-      ]
-    },
-    D:{
-      vibe:"Lirika / Sokinlik", icon:"🌙",
-      desc:"Bir oz yolg'izlik yoki sokin hayotiy kayfiyat. Naushnikda yolg'iz eshitiladigan treklar.",
-      genres:["Indie Folk","Acoustic","Soul","Sad Pop"],
-      tracks:[
-        {title:"Billie Eilish - When The Party's Over",artist:"Billie Eilish",ytId:"pbMwTqkKSps"},
-        {title:"The Weeknd - Call Out My Name",artist:"The Weeknd",ytId:"P9t9jHus3EU"},
-        {title:"Lewis Capaldi - Someone You Loved",artist:"Lewis Capaldi",ytId:"zABZyAoxXqk"},
-        {title:"Olivia Rodrigo - drivers license",artist:"Olivia Rodrigo",ytId:"ZmDBbnmKpqQ"},
-        {title:"Sufjan Stevens - Death With Dignity",artist:"Sufjan Stevens",ytId:"lN0uOKPxGcE"},
-        {title:"Phoebe Bridgers - Motion Sickness",artist:"Phoebe Bridgers",ytId:"GwLMDpbHvSY"},
-        {title:"Bon Iver - Skinny Love",artist:"Bon Iver",ytId:"ssdgMomZqMI"},
-        {title:"Hozier - Take Me To Church",artist:"Hozier",ytId:"PVjiKRfKpPI"},
-        {title:"Ed Sheeran - The A Team",artist:"Ed Sheeran",ytId:"UAWcs5H-qgQ"},
-        {title:"Damien Rice - The Blower's Daughter",artist:"Damien Rice",ytId:"RWJ8TqLMeAo"}
-      ]
-    }
+const TEST_QUESTIONS = [
+  {
+    q: "Hozirgi atrofingizdagi muhit qanday ko'rinishda?",
+    opts: [
+      { text: "Tinch va qorong'u xona", vibe: "melancholic" },
+      { text: "Yorug' va harakat ko'p joy", vibe: "energetic" },
+      { text: "Tabiat qo'ynida yoki ochiq havo", vibe: "chill" }
+    ]
+  },
+  {
+    q: "Agar hozir rasm chizsangiz, qaysi rang asosiy bo'lardi?",
+    opts: [
+      { text: "To'q ko'k yoki binafsha", vibe: "melancholic" },
+      { text: "Yorqin qizil yoki sariq", vibe: "energetic" },
+      { text: "Yumshoq pastel yoki yashil", vibe: "chill" }
+    ]
   }
-};
-// Copy uz results to ru/en (same tracks, different vibe names)
-RESULTS.ru = {
-  A:{...RESULTS.uz.A, vibe:"Антидот от стресса", desc:"Вы сейчас на грани взрыва. Два пути: выплеснуть или успокоиться."},
-  B:{...RESULTS.uz.B, vibe:"Танцы и кайф", desc:"Энергия есть, а музыки — нет. Никаких сценариев, только танец."},
-  C:{...RESULTS.uz.C, vibe:"Перекур для мозга", desc:"Устали от работы, учёбы или людей. Нужен приятный, ненавязчивый фон."},
-  D:{...RESULTS.uz.D, vibe:"Лирика / Тишина", desc:"Немного одиноко или тихое жизненное настроение. Треки для наушников в одиночестве."}
-};
-RESULTS.en = {
-  A:{...RESULTS.uz.A, vibe:"Stress Antidote", desc:"You're on the verge of exploding. Two paths: release it or calm down."},
-  B:{...RESULTS.uz.B, vibe:"Dance & Vibes", desc:"Energy is here, music is not. No script — just pure dance."},
-  C:{...RESULTS.uz.C, vibe:"Brain Break", desc:"Tired of work, study or people. Just need a pleasant, non-demanding background."},
-  D:{...RESULTS.uz.D, vibe:"Lyrics & Silence", desc:"A little lonely or quiet life mood. Tracks for headphones, alone."}
-};
+];
 
-const LANG_TEXT = {
-  uz:{trending:"🔥 Trending hozir — bosing va tinglang", q:"Savol",of:"dan",restart:"🔄 Qaytadan boshlash",seeAll:"Barchasi",result:"Sizning kayfiyatingiz:",genres:"Tavsiya etiladigan janrlar",songs:"🎧 Siz uchun qo'shiqlar"},
-  ru:{trending:"🔥 Сейчас в тренде — нажмите и слушайте", q:"Вопрос",of:"из",restart:"🔄 Начать заново",seeAll:"Все треки",result:"Ваше настроение:",genres:"Рекомендуемые жанры",songs:"🎧 Треки для вас"},
-  en:{trending:"🔥 Trending Now — click and listen", q:"Question",of:"of",restart:"🔄 Start Over",seeAll:"See all tracks",result:"Your vibe:",genres:"Recommended genres",songs:"🎧 Songs for you"}
-};
+// REKORDLAR VA HOLATLAR
+let currentTab = "page-mood";
+let testAnswers = [];
+let currentQIdx = 0;
 
-// ── STATE ─────────────────────────────────────────────────────────────────────
-let currentLang = "uz";
-let answers = [];  // array of "A"|"B"|"C"|"D"
-let testDone = false;
+const chatInput = document.getElementById("chat-input");
+const sendBtn = document.getElementById("send-btn");
+const infoStream = document.getElementById("info-chat-stream");
 
-// ── LANG ──────────────────────────────────────────────────────────────────────
-document.getElementById("lang-panel").addEventListener("click", e=>{
-  const btn = e.target.closest(".lang-btn");
-  if(!btn || btn.classList.contains("active")) return;
-  document.querySelectorAll(".lang-btn").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-  currentLang = btn.dataset.lang;
-  document.getElementById("trending-title").textContent = LANG_TEXT[currentLang].trending;
-  if(document.getElementById("page-test").classList.contains("active")) renderTest();
-});
-
-// ── PAGE NAV ──────────────────────────────────────────────────────────────────
-document.querySelectorAll(".nav-tab").forEach(tab=>{
-  tab.addEventListener("click",()=>{
-    document.querySelectorAll(".nav-tab").forEach(t=>t.classList.remove("active"));
-    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+// SAHIFALAR ALMASHINUVI
+document.querySelectorAll(".nav-tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+    
     tab.classList.add("active");
-    document.getElementById(tab.dataset.page).classList.add("active");
-    if(tab.dataset.page === "page-test") renderTest();
+    currentTab = tab.getAttribute("data-page");
+    document.getElementById(currentTab).classList.add("active");
+
+    // Inputning placeholderini sahifaga moslab o'zgartirish
+    if (currentTab === "page-mood") {
+      chatInput.placeholder = "Kayfiyatingizni yozing yoki tasvirlang...";
+    } else {
+      chatInput.placeholder = "Ijodkor nomini yozing (Masalan: Eminem, The Weeknd)...";
+    }
   });
 });
 
-// ── GENRE GRID ────────────────────────────────────────────────────────────────
-function buildGrid(){
+// INITIALIZE LOBBY GIGS
+function initLobby() {
   const grid = document.getElementById("genre-grid");
-  GENRES.forEach(g=>{
-    const card = document.createElement("div");
-    card.className = "genre-card";
-    card.innerHTML = `
-      <img class="genre-thumb" src="https://img.youtube.com/vi/${g.ytId}/mqdefault.jpg" alt="${g.track}"
-        onerror="this.outerHTML='<div class=genre-thumb-placeholder>${g.icon}</div>'">
+  grid.innerHTML = sampleGenres.map(g => `
+    <div class="genre-card">
+      <div class="genre-thumb-placeholder">${g.icon}</div>
       <div class="genre-info">
         <div class="genre-label">${g.label}</div>
         <div class="genre-track">${g.track}</div>
         <div class="genre-artist">${g.artist}</div>
-      </div>`;
-    card.addEventListener("click",()=>openGenreModal(g));
-    grid.appendChild(card);
-  });
-}
-
-function openGenreModal(g){
-  const songs = GENRE_SONGS[g.label]||[];
-  document.getElementById("modal-genre-label").textContent = g.label;
-  document.getElementById("modal-genre-title").innerHTML = `${g.icon} Top ${songs.length} Qo'shiqlar`;
-  const list = document.getElementById("genre-modal-list");
-  list.innerHTML = "";
-  songs.forEach((s,i)=>{
-    const el = document.createElement("a");
-    el.className = "modal-track";
-    el.href = `https://www.youtube.com/watch?v=${s.ytId}`;
-    el.target = "_blank"; el.rel = "noopener noreferrer";
-    el.innerHTML = `
-      <div class="modal-track-num">${i+1}</div>
-      <img class="modal-track-thumb" src="https://img.youtube.com/vi/${s.ytId}/mqdefault.jpg"
-        onerror="this.outerHTML='<div class=modal-track-thumb-ph>🎵</div>'">
-      <div class="modal-track-info">
-        <div class="modal-track-title">${s.title}</div>
-        <div class="modal-track-artist">${s.artist}</div>
       </div>
-      <span class="modal-yt-btn">▶ YouTube</span>`;
-    list.appendChild(el);
-  });
-  document.getElementById("genre-modal-overlay").classList.add("open");
-  document.body.style.overflow = "hidden";
+    </div>
+  `).join("");
+  
+  renderQuestion();
 }
-document.getElementById("genre-modal-close").addEventListener("click",()=>{
-  document.getElementById("genre-modal-overlay").classList.remove("open");
-  document.body.style.overflow = "";
-});
-document.getElementById("genre-modal-overlay").addEventListener("click",e=>{
-  if(e.target===e.currentTarget){e.currentTarget.classList.remove("open");document.body.style.overflow="";}
-});
 
-// ── MOOD TEST RENDERER ────────────────────────────────────────────────────────
-function renderTest(){
-  const sec = document.getElementById("test-section");
-  sec.innerHTML = "";
-  const t = LANG_TEXT[currentLang];
-  const qs = QUESTIONS[currentLang];
-
-  if(testDone){
-    renderResult(sec);
+// KAYFIYAT TESTI TIZIMI
+function renderQuestion() {
+  const box = document.getElementById("test-core-box");
+  if (currentQIdx >= TEST_QUESTIONS.length) {
+    renderResult();
     return;
   }
+  
+  const qObj = TEST_QUESTIONS[currentQIdx];
+  let optionsHtml = qObj.opts.map((opt, i) => `
+    <button class="opt-btn" onclick="selectOption('${opt.vibe}')">
+      <span class="opt-key">${String.fromCharCode(65 + i)}</span>
+      <span class="opt-label">${opt.text}</span>
+    </button>
+  `).join("");
 
-  const current = answers.length; // 0..3
-
-  // Progress HTML
-  const pct = Math.round((current/4)*100);
-  const dots = [0,1,2,3].map(i=>{
-    let cls = "";
-    if(i<current) cls="done";
-    else if(i===current) cls="active";
-    return `<div class="p-dot ${cls}"></div>`;
-  }).join("");
-
-  const card = document.createElement("div");
-  card.className = "q-card";
-  card.innerHTML = `
-    <div class="progress-wrap">
-      <div class="progress-top">
-        <span class="progress-label">${t.q} ${current+1} ${t.of} 4</span>
-        <span class="progress-count">${pct}%</span>
+  box.innerHTML = `
+    <div class="q-card">
+      <div class="progress-wrap">
+        <div class="progress-top">
+          <span class="progress-label">Savol</span>
+          <span class="progress-count">${currentQIdx + 1}/${TEST_QUESTIONS.length}</span>
+        </div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" style="width: ${((currentQIdx + 1) / TEST_QUESTIONS.length) * 100}%"></div>
+        </div>
       </div>
-      <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
-      <div class="progress-dots">${dots}</div>
+      <div class="q-text">${qObj.q}</div>
+      <div class="options">${optionsHtml}</div>
     </div>
-    <div class="q-number">${t.q} ${current+1}</div>
-    <div class="q-text">${qs[current].text}</div>
-    <div class="options" id="opts"></div>`;
-  sec.appendChild(card);
+  `;
+}
 
-  const opts = card.querySelector("#opts");
-  qs[current].opts.forEach(o=>{
-    const btn = document.createElement("button");
-    btn.className = "opt-btn";
-    btn.innerHTML = `
-      <div class="opt-key">${o.key}</div>
-      <div class="opt-content">
-        <div class="opt-label">${o.label}</div>
-        ${o.sub?`<div class="opt-sub">${o.sub}</div>`:""}
-      </div>`;
-    btn.addEventListener("click",()=>{
-      // Visual feedback
-      opts.querySelectorAll(".opt-btn").forEach(b=>b.classList.remove("selected"));
-      btn.classList.add("selected");
-      btn.querySelector(".opt-key").style.background="var(--fire)";
-      btn.querySelector(".opt-key").style.color="#fff";
-      setTimeout(()=>{
-        answers.push(o.key);
-        if(answers.length===4){ testDone=true; }
-        renderTest();
-      }, 280);
-    });
-    opts.appendChild(btn);
+window.selectOption = function(vibe) {
+  testAnswers.push(vibe);
+  currentQIdx++;
+  renderQuestion();
+};
+
+function renderResult() {
+  const box = document.getElementById("test-core-box");
+  // Eng ko'p tanlangan vibe'ni hisoblash
+  const counts = {};
+  let finalVibe = "chill";
+  let max = 0;
+  testAnswers.forEach(v => {
+    counts[v] = (counts[v] || 0) + 1;
+    if (counts[v] > max) { max = counts[v]; finalVibe = v; }
   });
-}
 
-function getWinner(){
-  const count = {A:0,B:0,C:0,D:0};
-  answers.forEach(a=>count[a]++);
-  return Object.entries(count).sort((x,y)=>y[1]-x[1])[0][0];
-}
+  let vibeTitle = "Chill & Relax";
+  let vibeIcon = "☕";
+  let vibeDesc = "Siz xotirjamlik va sokinlik holatidasiz. Sizga eng mos keladigan treklar tanlandi.";
 
-function renderResult(sec){
-  const winner = getWinner();
-  const res = RESULTS[currentLang][winner];
-  const t = LANG_TEXT[currentLang];
+  if (finalVibe === "energetic") {
+    vibeTitle = "High Energy Boost"; vibeIcon = "⚡"; vibeDesc = "Ichki kuch va yuqori motivatsiya oqimidasiz! Dinamik ritmlar siz uchun.";
+  } else if (finalVibe === "melancholic") {
+    vibeTitle = "Night Melancholy"; vibeIcon = "🌌"; vibeDesc = "Chuqur o'ylar va retro hislar og'ushidasiz. Chuqur lirik treklar ro'yxati.";
+  }
 
-  const genreTags = res.genres.map(g=>`<span class="result-genre-tag">${g}</span>`).join("");
-  const tracksHtml = res.tracks.map((tr,i)=>{
-    const ytId = tr.ytId||"";
-    const ytUrl = ytId && ytId!=="SEARCH"
-      ? `https://www.youtube.com/watch?v=${ytId}`
-      : `https://www.youtube.com/results?search_query=${encodeURIComponent(tr.artist+" "+tr.title)}`;
-    const thumb = ytId && ytId!=="SEARCH"
-      ? `<img class="track-thumb" src="https://img.youtube.com/vi/${ytId}/mqdefault.jpg" loading="lazy"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
-      : "";
-    return `<a class="music-track" href="${ytUrl}" target="_blank" rel="noopener noreferrer">
-      <div class="track-thumb-wrap">
-        ${thumb}
-        <div class="track-thumb-ph" style="${ytId && ytId!=="SEARCH"?"display:none":""}">🎵</div>
-        <span class="track-num-badge">${i+1}</span>
-      </div>
-      <div class="track-info">
-        <div class="track-title">${tr.title}</div>
-        <div class="track-artist">${tr.artist}</div>
-      </div>
-      <div class="track-yt">▶ YouTube</div>
-    </a>`;
-  }).join("");
-
-  sec.innerHTML = `
+  box.innerHTML = `
     <div class="result-card">
       <div class="result-banner">
-        <span class="result-vibe-icon">${res.icon}</span>
-        <div class="result-vibe-name">${res.vibe}</div>
-        <div class="result-desc">${res.desc}</div>
+        <span class="result-vibe-icon">${vibeIcon}</span>
+        <div class="result-vibe-name">${vibeTitle}</div>
+        <div class="result-desc">${vibeDesc}</div>
       </div>
-      <div class="result-genres">${genreTags}</div>
-      <div class="tracks-header">${t.songs}</div>
-      <div class="track-list">${tracksHtml}</div>
+      <div class="tracks-header">Tavsiya etilgan musiqalar</div>
+      <a class="music-track" href="https://youtube.com" target="_blank">
+        <div class="track-thumb-wrap"><div class="track-thumb-ph">🎵</div><span class="track-num-badge">1</span></div>
+        <div class="track-info"><div class="track-title">AI Selected Track #1</div><div class="track-artist">Vibe Producer</div></div>
+        <div class="track-yt">▶ YouTube</div>
+      </a>
     </div>
     <div class="retry-row">
-      <button class="retry-btn primary" id="retry-btn">🔄 ${t.restart}</button>
-    </div>`;
-
-  document.getElementById("retry-btn").addEventListener("click",()=>{
-    answers=[]; testDone=false; renderTest();
-  });
+      <button class="retry-btn" onclick="resetTest()">🔄 Qayta urinish</button>
+    </div>
+  `;
 }
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
-buildGrid();
+window.resetTest = function() {
+  testAnswers = [];
+  currentQIdx = 0;
+  renderQuestion();
+};
+
+// ─── MUSIC INFO PANEL INTEGRATSIYASI ───
+function addBubble(stream, role, html) {
+  const b = document.createElement("div");
+  b.className = `bubble ${role}`;
+  b.innerHTML = `<div class="bubble-msg">${html}</div>`;
+  stream.appendChild(b);
+  stream.scrollTop = stream.scrollHeight;
+}
+
+function renderArtistCard(art) {
+  return `
+    <div class="info-rich">
+      <div class="info-section">
+        <div class="info-section-title">Ijodkor Tahlili</div>
+        <div class="info-fact-row"><div class="info-fact-key">Nomi:</div><div class="info-fact-val">${art.name}</div></div>
+        <div class="info-fact-row"><div class="info-fact-key">Janr:</div><div class="info-fact-val">${art.genre}</div></div>
+        <div class="info-fact-row"><div class="info-fact-key">Diyor / Yillar:</div><div class="info-fact-val">${art.country} (${art.period})</div></div>
+        <div class="info-fact-row"><div class="info-fact-key">Musiqiy Vibe:</div><div class="info-fact-val">${art.vibe}</div></div>
+      </div>
+      <div class="info-section">
+        <div class="info-section-title">Biografiya va Uslub</div>
+        <div class="info-bio">${art.bio}</div>
+      </div>
+    </div>
+  `;
+}
+
+function processInfoSearch(text) {
+  const lower = text.toLowerCase();
+  const found = ARTISTS_DB.find(a => a.match.some(m => lower.includes(m)));
+
+  document.getElementById("info-typing").style.display = "flex";
+  
+  setTimeout(() => {
+    document.getElementById("info-typing").style.display = "none";
+    if (found) {
+      addBubble(infoStream, "bot", renderArtistCard(found));
+    } else {
+      addBubble(infoStream, "bot", `🔍 "<b>${text}</b>" bazamizdan topilmadi. Hozircha quyidagi ijodkorlarni qidirib ko'rishingiz mumkin:<br><br>• <i>Eminem</i><br>• <i>The Weeknd</i><br>• <i>Hans Zimmer</i>`);
+    }
+    sendBtn.disabled = false;
+  }, 600);
+}
+
+// INPUT VA SEND TUYMALARI MANTIG'I
+chatInput.addEventListener("input", () => {
+  chatInput.style.height = "auto";
+  chatInput.style.height = chatInput.scrollHeight + "px";
+  sendBtn.disabled = !chatInput.value.trim();
+});
+
+function handleSend() {
+  const val = chatInput.value.trim();
+  if (!val) return;
+
+  chatInput.value = "";
+  chatInput.style.height = "auto";
+  sendBtn.disabled = true;
+
+  if (currentTab === "page-info") {
+    // 2-sahifada bo'lsa chat oqimiga yozadi
+    addBubble(infoStream, "user", val);
+    processInfoSearch(val);
+  } else {
+    // 1-sahifada bo'lsa shunchaki notification yoki javob simulyatsiyasi
+    alert("Kayfiyatingiz qabul qilindi: " + val + "\\nTest topshirish orqali ham natija olishingiz mumkin.");
+    sendBtn.disabled = false;
+  }
+}
+
+sendBtn.addEventListener("click", handleSend);
+chatInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    handleSend();
+  }
+});
+
+// Start application
+initLobby();
 </script>
 </body>
-</html>"""
+</html>
+"""
 
-components.html(HTML, height=1200, scrolling=True)
+components.html(HTML, height=850, scrolling=True)
